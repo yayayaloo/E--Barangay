@@ -4,47 +4,6 @@
     background: var(--bg-secondary);
 }
 
-/* Header */
-.header {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background: var(--bg-primary);
-    border-bottom: 1px solid var(--border-color);
-    padding: 1rem 0;
-    box-shadow: var(--shadow-sm);
-}
-
-.logo {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    font-size: 1.5rem;
-    font-weight: 700;
-    text-decoration: none;
-    color: var(--text-primary);
-    transition: color var(--transition-fast);
-}
-
-.logo:hover {
-    color: var(--primary-600);
-}
-
-.logoIcon {
-    font-size: 2rem;
-}
-
-.userMenu {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-}
-
-.userName {
-    color: var(--text-secondary);
-    font-weight: 500;
-}
-
 /* Main Content */
 .main {
     padding-top: 2rem;
@@ -215,6 +174,20 @@
     color: var(--text-muted);
 }
 
+.appPurpose {
+    margin: 0.25rem 0 0;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+/* Empty State */
+.emptyMessage {
+    text-align: center;
+    padding: 2rem;
+    color: var(--text-muted);
+}
+
 /* Announcements */
 .announcements {
     margin-bottom: 3rem;
@@ -283,14 +256,6 @@
 
 /* Responsive */
 @media (max-width: 768px) {
-    .userMenu {
-        gap: 0.75rem;
-    }
-
-    .userName {
-        display: none;
-    }
-
     .actionCard {
         flex-direction: column;
         text-align: center;

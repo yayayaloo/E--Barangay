@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useAuth } from '@/components/AuthProvider'
+import { supabase } from '@/lib/supabase'
 import styles from './login.module.css'
 
 export default function LoginPage() {
@@ -25,7 +26,27 @@ export default function LoginPage() {
             setError(error)
             setLoading(false)
         } else {
-            router.push('/resident')
+            // Fetch user profile to determine role-based redirect
+            try {
+                const { data: { session } } = await supabase.auth.getSession()
+                if (session) {
+                    const { data: profile } = await supabase
+                        .from('profiles')
+                        .select('role')
+                        .eq('id', session.user.id)
+                        .single()
+
+                    if (profile?.role === 'admin') {
+                        router.push('/admin')
+                    } else {
+                        router.push('/resident')
+                    }
+                } else {
+                    router.push('/resident')
+                }
+            } catch {
+                router.push('/resident')
+            }
         }
     }
 

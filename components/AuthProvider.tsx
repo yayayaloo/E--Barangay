@@ -84,26 +84,20 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
         address?: string,
         phone?: string
     ) => {
-        // 1. Create auth user
-        const { data, error } = await supabase.auth.signUp({ email, password })
-        if (error) return { error: error.message }
-
-        // 2. Create profile row
-        if (data.user) {
-            const { error: profileError } = await supabase
-                .from('profiles')
-                .insert({
-                    id: data.user.id,
+        // Pass user details as metadata so the DB trigger can create the profile
+        const { error } = await supabase.auth.signUp({
+            email,
+            password,
+            options: {
+                data: {
                     full_name: fullName,
-                    email,
                     address: address || null,
                     phone: phone || null,
-                    role: 'resident',
-                })
+                },
+            },
+        })
 
-            if (profileError) return { error: profileError.message }
-        }
-
+        if (error) return { error: error.message }
         return { error: null }
     }
 
